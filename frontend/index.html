@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CMEs Alerts — FlareWatch</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
+</head>
+<body>
+  <div id="particles-js" class="bg-particles" aria-hidden="true"></div>
+
+  <header class="header" role="banner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">☀️</div>
+      <div class="titles">
+        <div class="name">CMEs Alerts</div>
+        <div class="tag">Realtime CME & Flare Monitoring</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <label for="wsUrl" class="visually-hidden">WebSocket URL</label>
+      <input id="wsUrl" class="input" type="url" placeholder="ws://localhost:4000/ws" aria-label="WebSocket URL" />
+      <button id="connectBtn" class="btn small">Connect</button>
+      <span id="connStatus" class="status-dot" title="Disconnected" aria-label="Connection status"></span>
+      <button id="themeToggle" class="btn small" aria-pressed="false" title="Toggle theme">🌙</button>
+      <button id="downloadSample" class="btn ghost">Download Sample Data</button>
+    </div>
+  </header>
+
+  <main class="main" role="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-info">
+        <h1 id="hero-title">Realtime CME(Coronal Mass Ejection) Monitoring(Aditya FlareWatch)</h1>
+        <p class="lead">
+          Streaming wind, flux, magnetic field, and derived impact indicators. Falls back to a local simulator if no backend is connected.
+        </p>
+
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-label">Wind Speed</div><div class="kpi-value" id="k_wind">— km/s</div></div>
+          <div class="kpi"><div class="kpi-label">Particle Flux</div><div class="kpi-value" id="k_flux">— /cm²·s</div></div>
+          <div class="kpi"><div class="kpi-label">Mag Field</div><div class="kpi-value" id="k_mag">— nT</div></div>
+          <div class="kpi"><div class="kpi-label">Intensity</div><div class="kpi-value" id="k_intensity">— / 10</div></div>
+          <div class="kpi"><div class="kpi-label">Hit Probability</div><div class="kpi-value" id="k_prob">— %</div></div>
+          <div class="kpi"><div class="kpi-label">Closest Approach</div><div class="kpi-value" id="k_close">— M km</div></div>
+          <div class="kpi"><div class="kpi-label">Impact Region</div><div class="kpi-value" id="k_region">—</div></div>
+          <div class="kpi"><div class="kpi-label">Impact Window</div><div class="kpi-value" id="k_window">—</div></div>
+          <div class="kpi"><div class="kpi-label">Next Solar Eclipse</div><div class="kpi-value" id="k_eclipse">—</div></div>
+        </div>
+
+        <div class="hero-cta">
+          <button class="btn" id="btn-simulate">Start Live Simulation</button>
+          <a class="btn ghost" href="#alerts">View Alerts</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <canvas id="overviewChart" height="360" aria-label="Overview chart" role="img"></canvas>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card chart-card">
+        <h3>Solar Wind Speed</h3>
+        <canvas id="windChart" height="190" aria-label="Wind speed chart" role="img"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h3>Particle Flux</h3>
+        <canvas id="fluxChart" height="190" aria-label="Particle flux chart" role="img"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h3>Magnetic Field</h3>
+        <canvas id="magChart" height="190" aria-label="Magnetic field chart" role="img"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h3>Intensity & Probability</h3>
+        <canvas id="intensityChart" height="190" aria-label="Intensity and probability chart" role="img"></canvas>
+      </div>
+    </section>
+
+    <section class="alerts" id="alerts" aria-labelledby="alerts-title">
+      <h2 id="alerts-title">Alerts Timeline</h2>
+      <div class="alerts-controls">
+        <label><input type="checkbox" id="filter-high" checked> High</label>
+        <label><input type="checkbox" id="filter-medium" checked> Medium</label>
+        <label><input type="checkbox" id="filter-low" checked> Low</label>
+      </div>
+      <div id="alertsList" class="alerts-list" role="log" aria-live="polite"></div>
+    </section>
+
+    <section class="about card">
+      <h3>Message Formats</h3>
+      <pre class="code">
+{ "type":"sample", "sample": {
+  "timestamp","wind","flux","mag","density",
+  "intensity","hitProbability","closeToEarthMkm",
+  "expectedImpact": {"lat","lon","region"},
+  "impactWindow": {"start","end"},
+  "solarEclipse": {"date","type","visibility"}
+}, "alerts":[ ... ] }
+{ "type":"bulk", "samples":[...], "alerts":[...] }
+      </pre>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div>© Aditya FlareWatch • Demo</div>
+  </footer>
+
+  <script src="app.realtime.js" defer></script>
+</body>
+</html>

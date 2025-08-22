@@ -1,0 +1,90 @@
+:root{
+  --bg-1:#041022; --bg-2:#072033; --card:rgba(255,255,255,0.03);
+  --muted:rgba(234,246,255,0.75); --accent:#ffd166; --success:#73d13d;
+  --warn:#ffa940; --danger:#ff4d4f;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:linear-gradient(180deg,var(--bg-1),var(--bg-2)); color:#eaf6ff;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; min-height:100vh;
+}
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.bg-particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* Header */
+.header{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:18px 36px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ff6b6b);display:flex;align-items:center;justify-content:center;font-weight:900;color:#071428;font-size:22px;box-shadow:0 8px 30px rgba(0,0,0,0.45)}
+.titles .name{font-weight:800}
+.titles .tag{font-size:12px;color:var(--muted)}
+.controls{display:flex;gap:10px;align-items:center}
+.status-dot{width:12px;height:12px;border-radius:50%;background:#888;display:inline-block;box-shadow:0 0 0 2px rgba(255,255,255,0.08) inset}
+.status-dot.ok{background:var(--success)}
+.status-dot.sim{background:var(--warn)}
+.status-dot.err{background:var(--danger)}
+.input{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:inherit;width:380px}
+.btn{background:linear-gradient(90deg,var(--accent),#ff6b6b);border:none;color:#071428;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;transition:transform .15s ease,opacity .2s ease}
+.btn:hover{transform:translateY(-1px);opacity:.92}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--accent)}
+.btn.small{padding:8px 10px;font-size:14px}
+
+/* Layout spacing */
+.main{position:relative;z-index:2;padding:36px;max-width:1260px;margin:0 auto}
+.hero{display:flex;gap:40px;align-items:center;margin-bottom:28px;flex-wrap:wrap}
+.hero-info{flex:1;min-width:280px}
+.hero-visual{flex:1;min-width:320px;display:flex;align-items:center;justify-content:center}
+.lead{color:var(--muted);margin-top:10px;line-height:1.6}
+
+/* KPIs */
+.kpi-row{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap}
+.kpi{background:var(--card);padding:14px;border-radius:12px;min-width:160px}
+.kpi-label{font-size:12px;color:var(--muted)}
+.kpi-value{font-weight:800;font-size:19px;margin-top:6px}
+.hero-cta{margin-top:18px;display:flex;gap:12px}
+
+/* Charts grid with more spacing */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr); /* 2x2 for roomy spacing; becomes 1xN on small */
+  gap:24px;               /* increased spacing between cards */
+  margin:28px 0;          /* more outer spacing */
+}
+.card{background:var(--card);padding:20px;border-radius:14px;box-shadow:0 14px 32px rgba(2,6,23,0.5)}
+.chart-card{padding:22px}
+.chart-card h3{margin:0 0 14px 0}
+
+/* Make canvases a bit taller and add space inside charts */
+.chart-card canvas{width:100% !important;height:190px !important}
+
+/* Alerts */
+.alerts{margin-top:16px}
+.alerts-controls{display:flex;gap:14px;margin-bottom:12px;color:var(--muted)}
+.alerts-list{max-height:360px;overflow:auto;padding-right:8px;scrollbar-gutter:stable}
+.alert-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;margin:12px 0;background:rgba(255,255,255,0.02);border-left:6px solid transparent}
+.alert-item .meta{font-size:12px;color:var(--muted)}
+.alert-item.HIGH{border-left-color:var(--danger);background:linear-gradient(90deg,rgba(255,77,79,0.06),transparent)}
+.alert-item.MEDIUM{border-left-color:var(--warn);background:linear-gradient(90deg,rgba(255,169,64,0.06),transparent)}
+.alert-item.LOW{border-left-color:var(--success);background:linear-gradient(90deg,rgba(115,209,61,0.04),transparent)}
+
+.about{margin-top:18px}
+.footer{padding:22px 36px;text-align:center;color:var(--muted);margin-top:28px}
+.code{background:rgba(0,0,0,0.25);padding:10px;border-radius:8px;color:#fff;overflow:auto}
+
+/* Light theme */
+body.light{background:linear-gradient(180deg,#f7f9fb,#eaf6ff);color:#062033}
+body.light .card{background:rgba(6,32,51,0.04)}
+body.light .btn{color:#062033}
+body.light .btn.ghost{border-color:rgba(6,32,51,0.12)}
+body.light .titles .tag{color:#29445a}
+
+/* Responsive */
+@media (max-width:1100px){ .grid{grid-template-columns:1fr; gap:26px} }
+@media (max-width:760px){
+  .header{padding:16px 18px}
+  .main{padding:22px}
+  .hero{gap:26px}
+  .chart-card canvas{height:220px !important}
+  .input{width:180px}
+}
