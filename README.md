@@ -91,24 +91,6 @@ Real feed adapters (e.g., NOAA/SOHO/DSCOVR) with rate limiting
 
 Deployment with Nginx + HTTPS
 
-📜 License
-MIT
-
-yaml
-Copy code
-
----
-
-### What’s next?
-If you want, I can add a **world map impact heat overlay** (using a tiny canvas/world-geojson) to visualize `expectedImpact` on a map.
-
-
-
-
-
-
-Ask ChatGPT
-
 
 
 
