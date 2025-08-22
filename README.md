@@ -5,7 +5,6 @@ Realtime **Coronal Mass Ejection (CME) & Solar Flare Monitoring Dashboard** powe
 ---
 
 ## 📂 Project Structure
-
 cme_detector/
 ├── frontend/ # UI layer
 │ ├── index.html # main page
