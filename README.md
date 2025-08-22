@@ -183,10 +183,12 @@ PRs welcome! Please open an issue first for major changes.
 
 📜 License
 MIT © 2025 – Aditya FlareWatch Project
+reference links:
 
-yaml
-Copy code
+ https://www.sciencedirect.com/science/article/abs/pii/S2213133723000100               https://vision.hack2skill.com/event/bah2025psNumber=ps10&scrollY=0&utm_source=hack2skill&utm_medium=homepage​
 
----
+​
 
-Would you like me to **regenerate the full zip (`cme_detector.zip`) with the new
+​
+
+
