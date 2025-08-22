@@ -90,9 +90,3 @@ Historical query APIs
 Real feed adapters (e.g., NOAA/SOHO/DSCOVR) with rate limiting
 
 Deployment with Nginx + HTTPS
-
-
-
-
-
-ChatGPT can make mistakes. Check i
