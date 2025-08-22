@@ -1,92 +1,193 @@
-# 🌌 CME Monitor Dashboard — FlareWatch
+# ☀️ CMEs Alert
 
-![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)
-![Frontend](https://img.shields.io/badge/Frontend-HTML%2FCSS%2FJS-blue)
-![WebSocket](https://img.shields.io/badge/Realtime-WebSocket-orange)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
+Realtime **Coronal Mass Ejection (CME) & Solar Flare Monitoring Dashboard** powered by Node.js backend + WebSocket streaming + responsive frontend with charts, alerts, and live simulation.
 
-A **full-stack real-time dashboard** for monitoring simulated **Coronal Mass Ejection (CME)** & solar activity with **impact assessment**.
+---
+
+## 📂 Project Structure
+
+cme_detector/
+├── frontend/ # UI layer
+│ ├── index.html # main page
+│ ├── style.css # styles & theme
+│ ├── app.realtime.js # realtime client logic
+│ └── assets/ # icons, images, logos
+│
+├── backend/ # server + simulator
+│ ├── server.js # main WebSocket/REST server
+│ ├── dataGenerator.js # simulation + alert logic
+│ ├── package.json # npm dependencies
+│ ├── .env # config (port, host, etc.)
+│ └── Dockerfile # optional container build
+│
+├── README.md # documentation
+└── cme_detector.zip # packaged build
+
+markdown
+Copy code
+
+---
 
 ## ✨ Key Features
-- Live telemetry: **wind, particle flux, magnetic field, plasma density**
-- Derived indicators:
-  - **Intensity** (0–10)
-  - **Probability of hitting Earth**
-  - **Closest approach to Earth** (million km)
-  - **Expected impact location** (lat/lon + region label)
-  - **Impact window** (start/end)
-  - **Next solar eclipse** (date/type/visibility)
-- Alerts with **HIGH / MEDIUM / LOW** severity
-- Multi-line **overview & detail charts** (Chart.js)
-- Responsive UI, dark/light theme, simulator fallback
 
-## 📂 Structure
-cme-monitor/
-├── backend/
-│ ├── server.js
-│ ├── dataGenerator.js
-│ ├── package.json
-│ ├── .env
-│ └── Dockerfile
-└── frontend/
-├── index.html
-├── style.css
-└── app.realtime.js
+### 🔭 Realtime Solar Metrics
+- **Solar Wind Speed** (km/s)  
+- **Particle Flux** (/cm²·s)  
+- **Magnetic Field Strength** (nT)  
+- **Solar Intensity Index** (custom simulated metric)  
+- **Probability of Earth Impact** (%)  
+- **Closest Approach to Earth** (AU)  
+- **Estimated Impact Location** (lat/lon simulation)  
+- **Solar Eclipse Detection** (rare events, simulated)
 
+### 📊 Dashboard
+- Live updating KPIs (latest metrics)
+- Charts for Wind, Flux, Magnetic Field
+- Overview multi-line chart (Wind + Flux + Mag)
+- Alerts timeline with severity filters (High/Medium/Low)
+- Smooth animations (anime.js + Chart.js)
+- Dark/Light theme toggle
+
+### 🚨 Alerts Engine
+- Alerts triggered on thresholds:
+  - High Wind Speed  
+  - Strong Magnetic Field  
+  - High Flux Density  
+  - Eclipse proximity  
+  - Probability of Earth Impact > threshold
+- Alerts capped at **300 max** for performance
+- Auto-pruned list with severity colors
+
+### 🔗 Backend
+- Node.js + Express + WebSocket
+- Endpoints:
+  - `/ws` → realtime metrics & alerts stream
+  - `/api/info` → server health
+- Simulation mode if no upstream data
+- Auto reconnect & exponential backoff for clients
+- Docker-ready deployment
+
+### 📱 Mobile Friendly
+- Responsive grid layout
+- Charts scale up/down
+- Larger buttons for touch
+- Can run locally with **LAN access** (`http://<PC-IP>:8080`)
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/yourusername/cme_detector.git
+cd cme_detector
+2. Backend Setup
 bash
 Copy code
-
-## ⚙️ Backend
-```bash
 cd backend
 npm install
+cp .env.example .env
+# Edit .env if needed
 npm start
-REST: http://localhost:4000/api/info
+Default .env:
 
-WebSocket: ws://localhost:4000/ws
-
-.env
-
-ini
+env
 Copy code
 PORT=4000
-WS_PATH=/ws
-SIM_INTERVAL=2000
-BULK_ON_CONNECT=60
-🎨 Frontend
-Open frontend/index.html (or serve with any static server).
-In the header, set the WS URL (default ws://localhost:4000/ws) and click Connect; or use Start Live Simulation.
+HOST=0.0.0.0
+3. Frontend Setup
+You can serve the frontend with any static server:
 
-🔄 Message Formats
-json
+bash
 Copy code
-{ "type":"bulk", "samples":[...], "alerts":[...] }
+cd frontend
+npx serve .
+Now open http://localhost:3000
 
-{ "type":"sample", "sample":{
-  "timestamp":"ISO",
-  "wind":400.1, "flux":7.2, "mag":3.4, "density":8.0,
-  "intensity":6.42,
-  "hitProbability":0.73,
-  "closeToEarthMkm":22.5,
-  "expectedImpact":{"lat":20,"lon":78,"region":"South Asia"},
-  "impactWindow":{"start":"ISO","end":"ISO"},
-  "solarEclipse":{"date":"ISO","type":"Total","visibility":"Americas"}
-}, "alerts":[
-  {"timestamp": "...", "metric":"Wind Speed", "value":700, "severity":"HIGH", "note":"Strong solar wind"}
-]}
-Note: All values are simulated for demo purposes.
+4. Connect Frontend to Backend
+Enter ws://localhost:4000/ws in the WebSocket URL input
 
-🐳 Docker (backend)
+Click Connect
+
+Or click Start Live Simulation for demo data
+
+📱 Accessing on Mobile
+Make sure PC & phone are on the same WiFi
+
+Find your PC’s IP:
+
+bash
+Copy code
+ipconfig   # Windows
+ifconfig   # Mac/Linux
+Example: 192.168.1.42
+
+Run frontend:
+
+bash
+Copy code
+npx serve . --port 8080
+On phone → open browser:
+
+cpp
+Copy code
+http://192.168.1.42:8080
+Enter backend URL:
+
+arduino
+Copy code
+ws://192.168.1.42:4000/ws
+🐳 Docker Deployment
+Build backend container:
+
 bash
 Copy code
 cd backend
-docker build -t cme-backend .
-docker run -p 4000:4000 cme-backend
-📌 Roadmap
-Database persistence (Mongo/Postgres)
+docker build -t cme-detector-backend .
+docker run -d -p 4000:4000 cme-detector-backend
+For frontend, deploy to Netlify, Vercel, or Nginx.
 
-Historical query APIs
+📡 API / WebSocket Protocol
+Incoming Messages
+json
+Copy code
+{ "type": "sample", "sample": { "timestamp": "...", "wind": 420, "flux": 88, "mag": 7.2 } }
+{ "type": "alert", "alert": { "timestamp": "...", "metric": "wind", "value": 950, "severity": "HIGH", "note": "Strong CME" } }
+{ "type": "bulk", "samples": [...], "alerts": [...] }
+Extended Fields
+json
+Copy code
+{
+  "intensity": 0.82,
+  "probability": 67,
+  "closest_approach": 0.14,
+  "impact_location": "23.5N, 78.9E",
+  "eclipse": false
+}
+🚀 Roadmap
+✅ Basic CME/Flare monitoring
 
-Real feed adapters (e.g., NOAA/SOHO/DSCOVR) with rate limiting
+✅ Alerts + filtering
 
-Deployment with Nginx + HTTPS
+✅ Extended solar parameters
+
+🔲 Hook with NASA/ISRO API
+
+🔲 Persist alerts in DB
+
+🔲 Push notifications (mobile)
+
+🔲 AI anomaly detection
+
+👨‍💻 Contributing
+PRs welcome! Please open an issue first for major changes.
+
+📜 License
+MIT © 2025 – Aditya FlareWatch Project
+
+yaml
+Copy code
+
+---
+
+Would you like me to **regenerate the full zip (`cme_detector.zip`) with the new
