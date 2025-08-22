@@ -185,7 +185,8 @@ PRs welcome! Please open an issue first for major changes.
 MIT © 2025 – Aditya FlareWatch Project
 reference links:
 
- https://www.sciencedirect.com/science/article/abs/pii/S2213133723000100               https://vision.hack2skill.com/event/bah2025psNumber=ps10&scrollY=0&utm_source=hack2skill&utm_medium=homepage​
+  https://www.sciencedirect.com/science/article/abs/pii/S2213133723000100       
+  https://vision.hack2skill.com/event/bah2025psNumber=ps10&scrollY=0&utm_source=hack2skill&utm_medium=homepage​
 
 ​
 
